@@ -1,4 +1,5 @@
 from flask import Blueprint
+from flask_cors import CORS
 from flask_restless import APIManager
 
 
@@ -9,6 +10,8 @@ class BlueprintAPI(Blueprint):
         super(BlueprintAPI, self).register(app, options, first_registration)
 
         api_manager = APIManager(app=app, flask_sqlalchemy_db=db)
+
+        CORS(app, resources={r"/api/*": {"origins": "*"}}, allow_headers=['Origin', 'Content-Type'])
 
         api_manager.create_api(
             model=Movie,
